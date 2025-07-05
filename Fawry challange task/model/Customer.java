@@ -16,7 +16,7 @@ public class Customer {
         this.balance = balance;
         this.cart = new ArrayList<>();
     }
-// the first method to add to the cart 
+ 
     public void addToCart(Product product, int quantity) {
         if (!product.isAvailable(quantity)) {
             System.out.println(" Not enough stock for: " + product.getName());
@@ -26,7 +26,7 @@ public class Customer {
         System.out.println(" Added " + quantity + "x " + product.getName() + " to cart.");
     }
 
-    //3ayzen n3ml checkout 
+     
     public void checkout() {
         if (cart.isEmpty()) {
             System.out.println("Cart is empty. Cannot checkout.");
@@ -39,23 +39,20 @@ public class Customer {
             Product product = item.getProduct();
             int qty = item.getQuantity();
 
-            //  Check lw mwgood aw  l2
+            
             if (!product.isAvailable(qty)) {
                 System.out.println(" Product out of stock: " + product.getName());
                 return;
             }
-            // check lw expired or not
-            if (product instanceof Expirable) {
-                Expirable exp = (Expirable) product;
-                if (exp.isExpired()) {
-                    System.out.println(" Product expired: " + product.getName());
-                    return;
-                }
+            
+            if (!product.canBeSold()) {
+                System.out.println("Cannot sell product: " + product.getName());
+                return;
             }
 
             subtotal += item.getTotalPrice();
 
-              //check for shipping
+              
             if (product instanceof shippable) {
                 shippable shippable = (shippable) product;
                 itemsToShip.add(shippable);
@@ -70,7 +67,7 @@ public class Customer {
             return;
         }
 
-        //payment
+        
         for (CartItem item : cart) {
             item.getProduct().reduceQuantity(item.getQuantity());
         }
