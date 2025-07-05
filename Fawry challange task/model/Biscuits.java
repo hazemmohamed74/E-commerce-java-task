@@ -15,4 +15,8 @@ public class Biscuits extends Product implements Expirable {
     public boolean isExpired() {
         return LocalDate.now().isAfter(expiryDate);
     }
+    @Override
+public boolean canBeSold() {
+    return !isExpired(); // default
+}
 }
