@@ -21,6 +21,10 @@ public boolean isExpired(){
     return LocalDate.now().isAfter(expiryDate);
 
 }
+    @Override
+public boolean canBeSold() {
+    return !isExpired(); // default
+}
 @Override
     public Double getWeight() {
         return weight;
